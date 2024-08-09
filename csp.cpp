@@ -119,10 +119,10 @@ void csp1d::solve(){
                 }
             }
         }
-
-        for(int i = 0; i< B.return_no_row(); ++i){
-            B.set_element(i, l, a.get_element(i,0));
-        }
+        if(l!=-1)
+            for(int i = 0; i< B.return_no_row(); ++i){
+                B.set_element(i, l, a.get_element(i,0));
+            }
     }
 }
 
