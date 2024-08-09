@@ -5,7 +5,7 @@
 
 class csp1d{
 private:
-    int stock = 0; // Stock length
+    long double stock = 0; // Stock length
 
     matrix roll_sizes;       // Roll sizes
     matrix demand;           // Cutting demand
@@ -13,7 +13,7 @@ private:
     matrix current_solution; // Current solution
     matrix knapsack(matrix&, matrix&, matrix&, int&); // Solving knapsack problem
 public:
-    csp1d(matrix roll_sizes, matrix demand, int stock = 0){
+    csp1d(matrix roll_sizes, matrix demand, long double stock = 0){
         if(roll_sizes.return_no_row() != demand.return_no_row() || roll_sizes.return_no_col() != 1 || demand.return_no_col() != 1){
             throw runtime_error("Invalid problem");
         }
@@ -28,7 +28,7 @@ public:
 
     void solve();
     void show_answer();
-    void set(int, matrix, matrix);
+    void set(long double, matrix, matrix);
 };
 
 #endif
