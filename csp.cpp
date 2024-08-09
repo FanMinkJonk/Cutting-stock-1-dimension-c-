@@ -5,7 +5,7 @@ bool cmp(pair<T1, T2> a, pair<T1, T2> b) {
     return a.second > b.second;
 }
 
-matrix csp1d::knapsack(matrix& v, matrix& l, matrix& d, int& L) {
+matrix csp1d::knapsack(matrix& v, matrix& l, matrix& d, long double& L) {
     int n = v.return_no_row();
 
     vector<pair<int, long double>> pi(n);
@@ -20,7 +20,7 @@ matrix csp1d::knapsack(matrix& v, matrix& l, matrix& d, int& L) {
     vector<pair<int, int>> y(n);
     vector<vector<long double>> bestSolution(n, vector<long double>(1, 0));
     
-    int remainingLength = L;
+    long double remainingLength = L;
     long double maxValue = 0;
     int currentType = -1;
     bool P2 = true;
@@ -140,7 +140,7 @@ void csp1d::show_answer(){
     }
 }
 
-void csp1d::set(int s, matrix rs, matrix d){
+void csp1d::set(long double s, matrix rs, matrix d){
     if(s <= 0)
         throw runtime_error("Invalid stock length!!!");
     if(rs.return_no_col() > 1)
