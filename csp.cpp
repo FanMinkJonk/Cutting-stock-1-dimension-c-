@@ -5,7 +5,7 @@ bool cmp(pair<T1, T2> a, pair<T1, T2> b) {
     return a.second > b.second;
 }
 
-matrix csp1d::knapsack(matrix& v, matrix& l, matrix& d, long double& L) {
+matrix csp1d::knapsack(matrix& v, matrix& l, matrix& d, double& L) {
     int n = v.return_no_row();
 
     vector<pair<int, long double>> pi(n);
@@ -20,7 +20,7 @@ matrix csp1d::knapsack(matrix& v, matrix& l, matrix& d, long double& L) {
     vector<pair<int, int>> y(n);
     vector<vector<long double>> bestSolution(n, vector<long double>(1, 0));
     
-    long double remainingLength = L;
+    int remainingLength = L;
     long double maxValue = 0;
     int currentType = -1;
     bool P2 = true;
@@ -30,7 +30,7 @@ matrix csp1d::knapsack(matrix& v, matrix& l, matrix& d, long double& L) {
             for(int i = currentType + 1; i < n; i++) {
                 int index = pi[i].first;
                 y[i].first = index;
-                int yi = min(remainingLength / (int)l.get_element(index, 0), (long double)d.get_element(index, 0));
+                int yi = min(remainingLength / (int)l.get_element(index, 0), (int)d.get_element(index, 0));
                 y[i].second = yi;
                 remainingLength -= l.get_element(index, 0) * yi;
             }  
@@ -81,6 +81,7 @@ matrix csp1d::knapsack(matrix& v, matrix& l, matrix& d, long double& L) {
 }
 
 void csp1d::solve(){
+    cout << "Solving problem\n";
     bool STOP = false;
 
     while(!STOP){
@@ -120,16 +121,17 @@ void csp1d::solve(){
             }
         }
         if(l!=-1)
-            for(int i = 0; i< B.return_no_row(); ++i){
+            for(int i = 0; i < B.return_no_row(); ++i){
                 B.set_element(i, l, a.get_element(i,0));
             }
     }
+    cout << "Problem solved!\n";
 }
 
 void csp1d::show_answer(){
     cout << "The variable matrix:\n";
     current_solution.show_matrix();
-    cout << "The pattern matrix\n";
+    cout << "The pattern matrix:\n";
     B.show_matrix();
     cout << "So we have to cut based on the following pattern to minimize waste:\n";
     for(int i = 0; i<B.return_no_col(); ++i){
@@ -138,19 +140,78 @@ void csp1d::show_answer(){
             cout << B.get_element(j,i) << "(" << this -> roll_sizes.get_element(j,0) << ")" << ((j==B.return_no_row()-1)?"\n":" ");
         }
     }
+    cout << "Total stock use:";
+    for(int i = 0; i<B.return_no_col(); ++i){
+        this -> total_roll = this -> total_roll + ceil(current_solution.get_element(i,0));
+    }
+    cout << this -> total_roll << endl;
+    cout << "Total waste:";
+    long double temp = 0;
+    matrix after_cut = this -> current_solution;
+    for(int i = 0; i<B.return_no_col(); ++i){
+        after_cut.set_element(i,0,ceil(after_cut.get_element(i,0)));
+        this -> waste = this -> waste + (this -> stock * ceil(this -> current_solution.get_element(i,0)));
+        for(int j = 0; j<B.return_no_row(); ++j){
+            this -> waste = this -> waste - (ceil(this -> current_solution.get_element(i,0))*(B.get_element(j,i))*(this -> roll_sizes.get_element(j,0)));
+        }
+    }
+    after_cut = B*after_cut;
+    for(int i = 0; i<after_cut.return_no_row(); ++i){
+        temp = temp + (after_cut.get_element(i,0)-this -> demand.get_element(i,0))*(this -> roll_sizes.get_element(i,0));
+    }
+    this -> waste = this -> waste + temp;
+
+    cout << waste << endl;
 }
 
-void csp1d::set(long double s, matrix rs, matrix d){
+void csp1d::set(matrix rs, matrix d, double s){
     if(s <= 0)
         throw runtime_error("Invalid stock length!!!");
-    if(rs.return_no_col() > 1)
+    if(rs.return_no_col() > 1 || rs.return_no_row() == 0)
         throw runtime_error("Invalid roll cut!!!");
-    if(d.return_no_col() > 1);
+    if(d.return_no_col() > 1 || d.return_no_row() == 0)
         throw runtime_error("Invalid demand!!!");
     this -> stock      = s;
     this -> roll_sizes = rs;
     this -> demand     = d;
+    this -> B          = matrix::unit_matrix(demand.return_no_row());
+    this -> current_solution = matrix(vector<vector<long double>>(demand.return_no_row(), vector<long double>(1)));
+    this -> total_roll = 0;
+    this -> waste      = 0.0;
+    cout << "Case received:\n";
+    cout << "Stock:" << stock << endl;
+    cout << "Demand:\n";
+    this -> demand.show_matrix();
+    cout << "Cut size requirement\n";
+    this -> roll_sizes.show_matrix();
 }
 
+double csp1d::get_stock(){
+    return this -> stock;
+}
+
+double csp1d::get_waste(){
+    return this -> waste;
+}
+
+int csp1d::get_total_roll(){
+    return this -> total_roll;
+}
+
+matrix csp1d::get_roll_sizes(){
+    return this -> roll_sizes;
+}
+
+matrix csp1d::get_demand(){
+    return this -> demand;
+}
+
+matrix csp1d::get_base(){
+    return this -> B;
+}
+
+matrix csp1d::get_current_solution(){
+    return this -> current_solution;
+}
 
 
