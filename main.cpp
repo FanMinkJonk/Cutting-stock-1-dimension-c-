@@ -2,22 +2,14 @@
 #include "csp.h"
 
 int main(){
-    matrix demand({{7},{9},{4}});
-    matrix roll({{11},{5},{3}});
-    int stock = 17;
+    matrix demand({{80},{50},{100}});
+    // Or we could simply write "matrix demand; demand.set_matrix({{80},{50},{100}});"
+
+    matrix roll({{4},{6},{7}});
+    double stock = 15;
     
-    cout << "Building case\n";
     csp1d demo(roll, demand, stock);
-    cout << "Case received:\n";
-    cout << "Stock:" << stock << endl;
-    cout << "Demand:\n";
-    demand.show_matrix();
-    cout << "Cut size requirement\n";
-    roll.show_matrix();
-    cout << "Solving problem...\n";
     demo.solve();
-    cout << "Finished solving problem\n";
-    cout << "Answer:\n";
     demo.show_answer();
 
     return 0;
