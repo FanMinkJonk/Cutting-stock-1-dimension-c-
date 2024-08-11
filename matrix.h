@@ -32,30 +32,30 @@ public:
     }
 
     void set_matrix(vector<vector<long double>>); // Set matrix
-    void show_matrix();                      // Print matrix
-    void remove_row(int, int);               // Remove desire row
-    void remove_col(int, int);               // Remove desire collumn
-    void set_element(int, int, long double);
+    void show_matrix();                           // Print matrix
+    void remove_row(int, int);                    // Remove desire row
+    void remove_col(int, int);                    // Remove desire collumn
+    void set_element(int, int, long double);      // Set element
 
-    int return_no_row();                     // Return number of row
-    int return_no_col();                     // Return number of col
+    int return_no_row(); // Return number of row
+    int return_no_col(); // Return number of col
 
-    double get_element(int, int);            // Return element on row i and collumn j
-    double det();                            // Return matrix's determinant
+    double get_element(int, int); // Return element on row i and collumn j
+    double det();                 // Return matrix's determinant
 
-    matrix transpose();                      // Return matrix's transposal
-    matrix getCofactor();                    // Return matrix's cofactor
-    matrix inverse();                        // Return matrix's inversion
-    matrix submatrix(int, int, int, int);              // Return matrix's submatrix
-    static matrix unit_matrix(int);
+    matrix transpose();                   // Return matrix's transposal
+    matrix getCofactor();                 // Return matrix's cofactor
+    matrix inverse();                     // Return matrix's inversion
+    matrix submatrix(int, int, int, int); // Return matrix's submatrix
+    static matrix unit_matrix(int);       // Return unit matrix
 
-    matrix& operator=(const matrix&);        // Matrix's assignment
-    matrix operator+(const matrix&);         // Matrix's addition
-    matrix operator*(const matrix&);         // Matrix's multiplication(Matrix x Matrix)
-    matrix operator*(const long double&);         // Matrix's multiplication(Matrix x number)
+    matrix& operator=(const matrix&);     // Matrix's assignment
+    matrix operator+(const matrix&);      // Matrix's addition
+    matrix operator*(const matrix&);      // Matrix's multiplication(Matrix x Matrix)
+    matrix operator*(const long double&); // Matrix's multiplication(Matrix x number)
 
 };
 
 #endif
 
-//----- This library was made by fanminkjonk, feel free to use, fix, adjust,... whatever you want, but make sure to give me some credit, I'll be appreciated ;) -----//
+//----- This library was made by fanminkjonk(HCMUT), feel free to use, fix, adjust,... whatever you want, but make sure to give me some credit, I'll be appreciated ;) -----//
